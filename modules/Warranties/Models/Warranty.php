@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Warranties\Models\Models;
+namespace Modules\Warranties\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Brands\database\factories\BrandFactory;
+use Modules\Warranties\Contracts\WarrantyRepositoryInterface;
 use Modules\Warranties\database\factories\WarrantyFactory;
 
 class Warranty extends Model
@@ -25,6 +25,21 @@ class Warranty extends Model
 
     protected static function newFactory():Factory{
         return WarrantyFactory::new();
+    }
+    public static function itemsDetail():array{
+        $warranties=app(WarrantyRepositoryInterface::class)->all();
+        $list=[];
+        foreach ($warranties as $warranty){
+            $list[]=[
+                'title'=>$warranty->name,
+                'value'=>$warranty->id
+            ];
+        }
+        return [
+            'title'=>'گارانتی',
+            'list'=>$list,
+            'model'=>'\\Modules\\Warranties\\Models\\Warranty'
+        ];
     }
 }
 

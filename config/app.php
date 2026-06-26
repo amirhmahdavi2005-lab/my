@@ -156,19 +156,20 @@ return [
     */
 
     'providers' => ServiceProvider::defaultProviders()->merge([
-        /*
-         * Package Service Providers...
-         */
 
-        /*
-         * Application Service Providers...
-         */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
         \Modules\Main\Providers\ModuleProvider::class,
+        \Modules\Users\Providers\ModuleProvider::class,
+        \Modules\Categories\Providers\ModuleProvider::class,
+        \Modules\Brands\Providers\ModuleProvider::class,
+
+        \Modules\Products\Providers\ModuleProvider::class,       // ← اضافه کن
+        \Modules\PriceVariation\Provider\ModuleProvider::class,  // ← اضافه کن
+
     ])->toArray(),
 
     /*
@@ -185,5 +186,5 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
-
+    'event'
 ];

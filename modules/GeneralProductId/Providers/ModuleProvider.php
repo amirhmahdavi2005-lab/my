@@ -11,7 +11,7 @@ class ModuleProvider extends ServiceProvider
     public function register()
     {
         $this->loadMigrationsFrom(
-            base_path('modules/generalproductid/database/migrations')
+            base_path('modules/GeneralProductId/database/migrations')
         );
 
         $this->app->bind(

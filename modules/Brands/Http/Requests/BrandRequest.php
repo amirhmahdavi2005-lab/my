@@ -3,6 +3,7 @@
 namespace Modules\Brands\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class BrandRequest extends FormRequest
 {
@@ -16,7 +17,9 @@ class BrandRequest extends FormRequest
     {
         return [
             'name'=>['required','string'],
-            'english_name'=>['required','string'],
+            'english_name'=>['required','string'
+            , Rule::unique('products__brands',
+                    'english_name')->ignore($this->brand)],
             'icon'=>['nullable','image','max:512']
         ];
     }

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->bigInteger('parent_id')->default(0);
             $table->text('description')->nullable();
             $table->text('tags')->nullable();
-            $table->SoftDeletes();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

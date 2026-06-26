@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('username')->unique();
-            $table->string('password')->nullable();
+            $table->string('password');
             $table->string('role')->default('user');
             $table->smallInteger('status')->default(-1);
             $table->string('avatar')->nullable();
-            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });

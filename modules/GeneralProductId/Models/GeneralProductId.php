@@ -9,7 +9,7 @@ class GeneralProductId extends Model
 {
     use SoftDeletes;
 
-    protected $table='products__general-ids';
+    protected $table='products_general_id';
 
     protected $guarded=[];
 

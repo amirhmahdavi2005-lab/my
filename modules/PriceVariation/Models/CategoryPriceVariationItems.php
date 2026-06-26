@@ -2,7 +2,13 @@
 
 namespace Modules\PriceVariation\Models;
 
-class CategoryPriceVariationItems
-{
+use Illuminate\Database\Eloquent\Model;
 
+class CategoryPriceVariationItems extends Model
+{
+    protected $table='categories__price_variation';
+
+    public $timestamps=false;
+
+    protected $guarded=[];
 }

@@ -2,7 +2,10 @@
 
 namespace Modules\Products\Models;
 
-class ProductDetail
-{
+use Illuminate\Database\Eloquent\Model;
 
+class ProductDetail extends Model
+{
+    protected $guarded = [];
+    protected $table = 'products__details';
 }

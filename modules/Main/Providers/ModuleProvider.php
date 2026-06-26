@@ -13,9 +13,14 @@ use Modules\Main\Repositories\CrudRepository;
 class ModuleProvider extends ServiceProvider
 {
     public function register():void{
+
+        if (!defined('AdminMiddleware')){
+            //'isAdmin'
+            define('AdminMiddleware',['auth:sanctum']);
+        }
+        require_once base_path().'/modules/Main/helper.php';
         (new ProviderLoaderService())->load();
         (new RouteLoaderService())->load();
-        require_once base_path().'/modules/Main/helper.php';
         $this->app->singleton(
             CrudRepositoryInterface::class,
             CrudRepository::class

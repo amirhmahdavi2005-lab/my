@@ -4,6 +4,7 @@ namespace Modules\Categories\Models;
 
 use  Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Categories\Database\Factories\CategoryFactory;
 
@@ -25,5 +26,10 @@ class  Category extends Model
                 'value'=>$request->get('name'),'orWhereColumn'=>'ename'
             ]
         ];
+    }
+
+    public function parent():BelongsTo
+    {
+        return $this->belongsTo(Category::class,'parent_id' , 'id');
     }
 }

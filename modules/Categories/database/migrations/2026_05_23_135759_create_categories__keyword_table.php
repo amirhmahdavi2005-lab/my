@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('categories__keywords');
+
         Schema::create('categories__keywords', function (Blueprint $table) {
             $table->id();
             $table->string('tag');

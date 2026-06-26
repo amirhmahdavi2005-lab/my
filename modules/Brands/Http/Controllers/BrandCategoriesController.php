@@ -3,22 +3,28 @@
 namespace Modules\Brands\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
+use Modules\Brands\Contracts\BrandRepositoryInterface;
+use Modules\Categories\Contracts\CategoryRepositoryInterface;
 
 class BrandCategoriesController
 {
-    public function __invoke($slug):array|Collection{
-        $brand=getBrandFromSlug($slug);
+    public function __construct(
+        protected BrandRepositoryInterface $brandRepository,
+        protected CategoryRepositoryInterface $categoryRepository)
+    {
+
+    }
+
+    public function __invoke($slug){
+        $brand=$this->brandRepository->first(['english_name'=>$slug]);
         if($brand){
-            $categories=getActionQuery('product:query',function ($query) use ($brand){
-               return $query->where('brand_id',$brand->id)
-                   ->pluck('category_id','category_id')
-                   ->toArray();
-            });
-            return getActionQuery('category:query',function ($query) use ($categories){
-                return $query
-                    ->whereNull('url')
-                    ->whereIn('id',$categories)->get();
-            });
+            return Cache::remember('brand-'.replaceSpace($slug),
+            now()->addMinutes(24*60),function () use($brand){
+                return $this->categoryRepository->
+                    getByArrayId(explode(',',$brand->categories));
+                });
+
         }
         return [];
     }

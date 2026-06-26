@@ -21,9 +21,6 @@ class ModuleProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(base_path('modules/Galleries/database/migrations'));
 
-        addEvent('shop:product-page-query',ProductPageQuery::class);
-
-        require_once base_path('modules/Galleries/helpers.php');
 
         $this->app->singleton(
             GalleryServiceInterface::class,

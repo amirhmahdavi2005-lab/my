@@ -7,10 +7,10 @@ use Modules\Galleries\Actions\AddGallerySetting;
 
 class SettingController
 {
-    public function __invoke(Request $request,AddGallerySetting $gallerySetting)
+    public function __invoke(Request $request,AddGallerySetting $addGallerySetting)
     {
        if($request->isMethod('post')){
-           $gallerySetting($request);
+           $addGallerySetting($request);
            return ['status'=>'ok'];
        }
        else{

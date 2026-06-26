@@ -13,7 +13,6 @@ class CategoryRepository extends CrudRepository implements CategoryRepositoryInt
     public function create(array $data): Category
     {
         $category = new Category($data);
-
         $category->saveOrFail();
 
         return $category;
@@ -21,20 +20,55 @@ class CategoryRepository extends CrudRepository implements CategoryRepositoryInt
 
     public function latest(string $column)
     {
-        return Category::latest($column)->first();
+        return Category::query()->latest($column)->first();
     }
 
     public function update(int $id, array $data)
     {
         $category = Category::findOrFail($id);
-
         $category->update($data);
 
         return $category;
     }
 
-    public function countTrashedCategoriesByText(string $text):int
+    public function countTrashedCategoriesByText(string $text): int
     {
-        return Category::onlyTrashed()->Where('name','like','%'.$text.'%')->orWhere('ename','like','%'.$text.'%')->count();
+        return Category::onlyTrashed()
+            ->where(function ($q) use ($text) {
+                $q->where('name', 'like', "%{$text}%")
+                    ->orWhere('ename', 'like', "%{$text}%");
+            })
+            ->count();
+    }
+
+    public function all(): array
+    {
+        return Category::query()->get()->toArray();
+    }
+
+    public function first(int $id)
+    {
+        return Category::find($id);
+    }
+
+    public function getCategoryById(int $id)
+    {
+        return Category::find($id);
+    }
+
+    public function getByArrayId(array $ids): array
+    {
+        return Category::whereNull('url')
+            ->whereIn('id', $ids)
+            ->get()
+            ->all();
+    }
+
+    public function pluckChildrenIds(array $parentIds, array $excludeIds = []): array
+    {
+        return Category::whereIn('parent_id', $parentIds)
+            ->whereNotIn('id', $excludeIds)
+            ->pluck('id')
+            ->toArray();
     }
 }

@@ -12,7 +12,7 @@ class BrandFactory extends Factory
     {
         return [
             'name'=>fake()->text(10),
-            'english_name'=>fake()->text(10),
+            'english_name'=>fake()->unique(true)->text(20),
             'categories'=>[1,2]
         ];
     }

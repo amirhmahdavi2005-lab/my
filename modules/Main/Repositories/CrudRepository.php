@@ -3,15 +3,23 @@
 namespace Modules\Main\Repositories;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Modules\Main\Contracts\CrudPaginationInterface;
 use Modules\Main\Contracts\CrudRepositoryInterface;
 
 class CrudRepository implements CrudRepositoryInterface
 {
 
-    public function index(Request $request)
+    public function index(Request $request): LengthAwarePaginator
     {
-       return app(CrudPaginationInterface::class)->paginate($request, $this->model);
+        $paginationRepo = new CrudPaginationRepository(
+            filters:[
+                new CrudPaginationSoftDeleteFilter(),
+                new CrudPaginationFilter(),
+            ],
+            ordering:new CrudPaginationOrder()
+        );
+       return $paginationRepo->paginate($request, $this->model);
     }
 
     public function find($id)
